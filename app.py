@@ -1,7 +1,8 @@
 import streamlit as st
 import time
+import datetime
 
-# ---------- Custom CSS for hacker desktop splash ----------
+# ----------- Custom CSS for both screens ----------
 st.markdown("""
     <style>
     body, .stApp {
@@ -36,75 +37,152 @@ st.markdown("""
         font-size: 18px;
         font-family: 'Roboto Mono', monospace;
     }
+    /* Desktop Screen */
+    .sidebar-icons img {
+        width: 40px;
+        margin-bottom: 10px;
+    }
+    .sidebar-icons .icon-label {
+        margin-bottom: 30px;
+        font-size: 18px;
+        font-family: 'Segoe UI', Arial, sans-serif;
+        color: #222;
+    }
+    .center-logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 60vh;
+    }
+    .center-logo img {
+        max-width: 380px;
+    }
+    .taskbar {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100vw;
+        background: #222d35;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 60px;
+        z-index: 100;
+    }
+    .taskbar-icons {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+    }
+    .taskbar-icons .icon-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: #fff;
+        font-size: 14px;
+        margin: 0 12px;
+    }
+    .taskbar-icons img {
+        width: 36px;
+        margin-bottom: 4px;
+    }
+    .taskbar-datetime {
+        position: absolute;
+        right: 36px;
+        color: #fff;
+        background: rgba(40,40,40,0.9);
+        padding: 8px 18px;
+        border-radius: 8px;
+        font-size: 16px;
+    }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto+Mono&display=swap" rel="stylesheet">
 """, unsafe_allow_html=True)
 
-# ---------- Splash Animation ----------
-loading_msgs = [
-    "In",
-    "Loading essential services..",
-    "Configuring security protocols...",
-    "Launching interface..."
-]
+# ----------- Hacker Loading Splash ----------
+if "loaded" not in st.session_state:
+    loading_msgs = [
+        "In",
+        "Loading essential services..",
+        "Configuring security protocols...",
+        "Launching interface..."
+    ]
 
-progress_bar = st.empty()
-glow_header = st.markdown('<div class="glow">ZAP</div>', unsafe_allow_html=True)
-loadmsg = st.empty()
-statusmsg = st.empty()
+    progress_bar = st.empty()
+    glow_header = st.markdown('<div class="glow">ZAP</div>', unsafe_allow_html=True)
+    loadmsg = st.empty()
+    statusmsg = st.empty()
 
-for i in range(101):
-    if i < 25:
-        msg = loading_msgs[0]
-    elif i < 50:
-        msg = loading_msgs[1]
-    elif i < 85:
-        msg = loading_msgs[2]
-    else:
-        msg = loading_msgs[3]
-    loadmsg.markdown(f'<div class="loading-msg">{msg}</div>', unsafe_allow_html=True)
-    progress_bar.progress(i)
-    statusmsg.markdown(f'<div class="init-status">System initialization: {i}%</div>', unsafe_allow_html=True)
-    time.sleep(0.035)
+    for i in range(101):
+        if i < 25:
+            msg = loading_msgs[0]
+        elif i < 50:
+            msg = loading_msgs[1]
+        elif i < 85:
+            msg = loading_msgs[2]
+        else:
+            msg = loading_msgs[3]
+        loadmsg.markdown(f'<div class="loading-msg">{msg}</div>', unsafe_allow_html=True)
+        progress_bar.progress(i)
+        statusmsg.markdown(f'<div class="init-status">System initialization: {i}%</div>', unsafe_allow_html=True)
+        time.sleep(0.035)
+    # Clear splash elements
+    glow_header.empty()
+    loadmsg.empty()
+    progress_bar.empty()
+    statusmsg.empty()
+    st.session_state.loaded = True
+    st.experimental_rerun()
 
-# ---------- Clear splash elements ----------
-glow_header.empty()
-loadmsg.empty()
-progress_bar.empty()
-statusmsg.empty()
-
-# ---------- Portfolio Headings Table of Contents ----------
-st.markdown("""
-    <div style="background: #111; border-radius: 8px; padding: 18px; color: #0ff; margin-bottom: 16px; text-align:center;">
-        <h3 style="font-family: 'Orbitron', monospace; color: #fff;">PORTFOLIO</h3>
-        <ul style="list-style:none; padding:0; font-family:'Roboto Mono', monospace;">
-            <li>Projects</li>
-            <li>Certifications</li>
-            <li>Resume</li>
-            <li>GitHub</li>
-            <li>TryHackMe</li>
-            <li>LinkedIn</li>
-        </ul>
+# ----------- Desktop Portfolio Screen -----------
+# Sidebar icons
+st.sidebar.markdown("""
+    <div class="sidebar-icons">
+        <a href="https://drive.google.com/file/d/1cM77ga8TZzhngI30XniL03WammTL4PHU/view?usp=sharing" target="_blank">
+            <img src="https://img.icons8.com/ios-filled/50/000000/resume.png"/>
+            <div class="icon-label">Resume</div>
+        </a>
+        <a href="https://github.com/Madhuganisaikumar" target="_blank">
+            <img src="https://img.icons8.com/material-rounded/48/000000/github.png"/>
+            <div class="icon-label">GitHub</div>
+        </a>
+        <a href="https://tryhackme.com/p/Madhuganisai" target="_blank">
+            <img src="https://raw.githubusercontent.com/Madhuganisaikumar/portfolio/main/thm_icon.png"/>
+            <div class="icon-label">THM</div>
+        </a>
+        <a href="https://www.linkedin.com/in/sai-madhugani/" target="_blank">
+            <img src="https://img.icons8.com/color/48/000000/linkedin-circled.png"/>
+            <div class="icon-label">Linkedin</div>
+        </a>
     </div>
 """, unsafe_allow_html=True)
 
-# ---------- Sidebar with your links ----------
-st.sidebar.title("Navigation")
-st.sidebar.markdown("[Resume](https://drive.google.com/file/d/1cM77ga8TZzhngI30XniL03WammTL4PHU/view?usp=sharing)")
-st.sidebar.markdown("[GitHub](https://github.com/Madhuganisaikumar)")
-st.sidebar.markdown("[THM](https://tryhackme.com/p/Madhuganisai)")
-st.sidebar.markdown("[LinkedIn](https://www.linkedin.com/in/sai-madhugani/)")
+# Center ZAP Logo
+st.markdown("""
+    <div class="center-logo">
+        <img src="https://raw.githubusercontent.com/Madhuganisaikumar/portfolio/main/zap_logo.png" alt="ZAP Logo"/>
+    </div>
+""", unsafe_allow_html=True)
 
-# ---------- Main Portfolio Sections ----------
-with st.expander("Projects"):
-    st.image("https://raw.githubusercontent.com/Madhuganisaikumar/portfolio/main/project1.png", caption="Zero Trust Blockchain")
-    st.image("https://raw.githubusercontent.com/Madhuganisaikumar/portfolio/main/project2.png", caption="KLCybersac")
-    st.image("https://raw.githubusercontent.com/Madhuganisaikumar/portfolio/main/project3.png", caption="Career Portal")
-
-with st.expander("Certifications"):
-    st.image("https://raw.githubusercontent.com/Madhuganisaikumar/portfolio/main/cert1.png", caption="Certified Ethical Hacker")
-    st.image("https://raw.githubusercontent.com/Madhuganisaikumar/portfolio/main/cert2.png", caption="AI Associate")
-    st.image("https://raw.githubusercontent.com/Madhuganisaikumar/portfolio/main/cert3.png", caption="Google Cloud Cybersecurity")
-    st.image("https://raw.githubusercontent.com/Madhuganisaikumar/portfolio/main/cert4.png", caption="Red Hat Developer")
-
-st.write("Feel free to connect with me on LinkedIn or check out my GitHub and TryHackMe profiles!")
+# Desktop-like taskbar
+st.markdown("""
+    <div class="taskbar">
+        <div class="taskbar-icons">
+            <div class="icon-box">
+                <img src="https://img.icons8.com/external-outline-juicy-fish/60/external-terminal-coding-outline-outline-juicy-fish.png"/>
+                Terminal
+            </div>
+            <div class="icon-box">
+                <img src="https://img.icons8.com/external-flatart-icons-outline-flatarticons/64/external-folder-basic-ui-elements-flatart-icons-outline-flatarticons-1.png"/>
+                Certifications
+            </div>
+            <div class="icon-box">
+                <img src="https://img.icons8.com/ios-filled/50/stack-of-photos.png"/>
+                Projects
+            </div>
+        </div>
+        <div class="taskbar-datetime">
+            {date} | {time}
+        </div>
+    </div>
+""".replace("{date}", datetime.datetime.now().strftime("%a, %b %d, %Y")).replace("{time}", datetime.datetime.now().strftime("%I:%M:%S %p")), unsafe_allow_html=True)
