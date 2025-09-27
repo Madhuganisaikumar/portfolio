@@ -1,48 +1,83 @@
 import streamlit as st
 import time
 
-# ---------- Custom CSS for background and headings ----------
+# ---------- Custom CSS for hacker desktop splash ----------
 st.markdown("""
     <style>
-    .welcome-container {
-        background: url('https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=1500&q=80') no-repeat center center;
-        background-size: cover;
-        padding: 40px 20px;
-        border-radius: 12px;
-        margin-bottom: 20px;
-        color: white;
-        text-align: center;
+    body, .stApp {
+        background: #000 !important;
     }
-    .toc {
-        background: #222;
-        border-radius: 6px;
-        padding: 12px;
+    .glow {
+        font-family: 'Orbitron', monospace, sans-serif;
+        font-size: 60px;
         color: #fff;
-        font-size: 1.1em;
-        margin-bottom: 18px;
+        text-align: center;
+        letter-spacing: 10px;
+        text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #0ff, 0 0 40px #0ff;
+        margin-top: 100px;
+        animation: flicker 1.5s infinite alternate;
+    }
+    @keyframes flicker {
+      0% { opacity: 1; text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #0ff, 0 0 40px #0ff;}
+      50% { opacity: 0.7; text-shadow: 0 0 20px #fff, 0 0 30px #0ff, 0 0 40px #0ff, 0 0 60px #0ff;}
+      100% { opacity: 1; text-shadow: 0 0 12px #fff, 0 0 24px #0ff, 0 0 36px #0ff, 0 0 48px #0ff;}
+    }
+    .loading-msg {
+        color: #aaa;
+        text-align: center;
+        font-size: 22px;
+        margin-bottom: 10px;
+        font-family: 'Roboto Mono', monospace;
+    }
+    .init-status {
+        color: #fff;
+        text-align: center;
+        margin-top: 10px;
+        font-size: 18px;
+        font-family: 'Roboto Mono', monospace;
     }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto+Mono&display=swap" rel="stylesheet">
 """, unsafe_allow_html=True)
 
-# ---------- Welcome Section on Black Background ----------
-st.markdown("""
-    <div class="welcome-container">
-        <h1>Welcome</h1>
-    </div>
-""", unsafe_allow_html=True)
+# ---------- Splash Animation ----------
+loading_msgs = [
+    "In",
+    "Loading essential services..",
+    "Configuring security protocols...",
+    "Launching interface..."
+]
 
-# ---------- Loading Bar ----------
-st.write("Loading your portfolio...")
-progress = st.progress(0)
-for percent_complete in range(100):
-    time.sleep(0.01)
-    progress.progress(percent_complete + 1)
+progress_bar = st.empty()
+glow_header = st.markdown('<div class="glow">ZAP</div>', unsafe_allow_html=True)
+loadmsg = st.empty()
+statusmsg = st.empty()
 
-# ---------- Table of Contents (Headings Preview) ----------
+for i in range(101):
+    if i < 25:
+        msg = loading_msgs[0]
+    elif i < 50:
+        msg = loading_msgs[1]
+    elif i < 85:
+        msg = loading_msgs[2]
+    else:
+        msg = loading_msgs[3]
+    loadmsg.markdown(f'<div class="loading-msg">{msg}</div>', unsafe_allow_html=True)
+    progress_bar.progress(i)
+    statusmsg.markdown(f'<div class="init-status">System initialization: {i}%</div>', unsafe_allow_html=True)
+    time.sleep(0.035)
+
+# ---------- Clear splash elements ----------
+glow_header.empty()
+loadmsg.empty()
+progress_bar.empty()
+statusmsg.empty()
+
+# ---------- Portfolio Headings Table of Contents ----------
 st.markdown("""
-    <div class="toc">
-        <h3>Portfolio Sections</h3>
-        <ul>
+    <div style="background: #111; border-radius: 8px; padding: 18px; color: #0ff; margin-bottom: 16px; text-align:center;">
+        <h3 style="font-family: 'Orbitron', monospace; color: #fff;">PORTFOLIO</h3>
+        <ul style="list-style:none; padding:0; font-family:'Roboto Mono', monospace;">
             <li>Projects</li>
             <li>Certifications</li>
             <li>Resume</li>
@@ -71,3 +106,5 @@ with st.expander("Certifications"):
     st.image("https://raw.githubusercontent.com/Madhuganisaikumar/portfolio/main/cert2.png", caption="AI Associate")
     st.image("https://raw.githubusercontent.com/Madhuganisaikumar/portfolio/main/cert3.png", caption="Google Cloud Cybersecurity")
     st.image("https://raw.githubusercontent.com/Madhuganisaikumar/portfolio/main/cert4.png", caption="Red Hat Developer")
+
+st.write("Feel free to connect with me on LinkedIn or check out my GitHub and TryHackMe profiles!")
