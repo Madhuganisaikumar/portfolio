@@ -5,9 +5,7 @@ import datetime
 # ----------- Custom CSS for both screens ----------
 st.markdown("""
     <style>
-    body, .stApp {
-        background: #000 !important;
-    }
+    body, .stApp { background: #000 !important; }
     .glow {
         font-family: 'Orbitron', monospace, sans-serif;
         font-size: 60px;
@@ -38,10 +36,7 @@ st.markdown("""
         font-family: 'Roboto Mono', monospace;
     }
     /* Desktop Screen */
-    .sidebar-icons img {
-        width: 40px;
-        margin-bottom: 10px;
-    }
+    .sidebar-icons img { width: 40px; margin-bottom: 10px; }
     .sidebar-icons .icon-label {
         margin-bottom: 30px;
         font-size: 18px;
@@ -54,9 +49,7 @@ st.markdown("""
         justify-content: center;
         height: 60vh;
     }
-    .center-logo img {
-        max-width: 380px;
-    }
+    .center-logo img { max-width: 380px; }
     .taskbar {
         position: fixed;
         left: 0;
@@ -82,10 +75,7 @@ st.markdown("""
         font-size: 14px;
         margin: 0 12px;
     }
-    .taskbar-icons img {
-        width: 36px;
-        margin-bottom: 4px;
-    }
+    .taskbar-icons img { width: 36px; margin-bottom: 4px; }
     .taskbar-datetime {
         position: absolute;
         right: 36px;
@@ -129,7 +119,6 @@ if "loaded" not in st.session_state:
         statusmsg.markdown(f'<div class="init-status">System initialization: {i}%</div>', unsafe_allow_html=True)
         time.sleep(0.03)
     st.session_state.loaded = True
-    st.query_params(loaded=True)
     st.success("System Initialized! Click 'Rerun' if stuck.")
     st.stop()  # This will stop the script after splash; next run will show desktop
 
