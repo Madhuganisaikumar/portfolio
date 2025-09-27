@@ -2,7 +2,7 @@ import streamlit as st
 
 # Sidebar with Navigation Links
 st.sidebar.title("Navigation")
-st.sidebar.markdown("[Resume](https://your-resume-link.com)")
+st.sidebar.markdown("[Resume](https://drive.google.com/file/d/1cM77ga8TZzhngI30XniL03WammTL4PHU/view?usp=sharing)")
 st.sidebar.markdown("[GitHub](https://github.com/Madhuganisaikumar)")
 st.sidebar.markdown("[THM](https://tryhackme.com/p/yourprofile)")
 st.sidebar.markdown("[LinkedIn](https://linkedin.com/in/yourprofile)")
