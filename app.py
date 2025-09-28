@@ -89,8 +89,7 @@ st.markdown("""
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto+Mono&display=swap" rel="stylesheet">
 """, unsafe_allow_html=True)
 
-# ----------- Hacker Loading Splash (only once per session) -----------
-if "loaded" not in st.session_state:
+def splash_screen():
     loading_msgs = [
         "In",
         "Loading essential services..",
@@ -114,9 +113,16 @@ if "loaded" not in st.session_state:
         loadmsg.markdown(f'<div class="loading-msg">{msg}</div>', unsafe_allow_html=True)
         progress_bar.progress(i)
         statusmsg.markdown(f'<div class="init-status">System initialization: {i}%</div>', unsafe_allow_html=True)
-        time.sleep(0.02)
+        time.sleep(0.01)
+    # Clear splash and set session state
+    glow_header.empty()
+    loadmsg.empty()
+    progress_bar.empty()
+    statusmsg.empty()
     st.session_state.loaded = True
-    st.experimental_rerun()  # Instantly rerun to show desktop UI
+
+if "loaded" not in st.session_state:
+    splash_screen()
 
 # ----------- Desktop Portfolio Screen -----------
 # Sidebar icons
