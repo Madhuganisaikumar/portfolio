@@ -1,17 +1,12 @@
-Absolutely, Sai! Here's the complete code for your app.py that integrates:
-- Your original splash screen and desktop layout
+Here’s your clean and complete app.py code — no extra commentary, just pure Python. This version includes:
+- Splash screen
 - Sidebar with external links
-- Taskbar with interactive icons
-- Modular content panels (Projects, Certifications)
-- A simulated terminal interface
-You can copy and paste this directly into your app.py file:
-
-✅ Full app.py Code
+- Taskbar with interactive navigation
+- Modular panels: Terminal, Projects, Certifications
 import streamlit as st
 import time
 import datetime
 
-# ----------- Custom CSS for splash and desktop ----------
 st.markdown("""
     <style>
     body, .stApp { background: #000 !important; }
@@ -97,7 +92,6 @@ st.markdown("""
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto+Mono&display=swap" rel="stylesheet">
 """, unsafe_allow_html=True)
 
-# ----------- Splash Screen ----------
 def splash_screen():
     loading_msgs = [
         "In",
@@ -132,11 +126,9 @@ def splash_screen():
 if "loaded" not in st.session_state:
     splash_screen()
 
-# ----------- Session State Setup ----------
 if "active_section" not in st.session_state:
     st.session_state.active_section = "home"
 
-# ----------- Sidebar Icons ----------
 st.sidebar.markdown("""
     <div class="sidebar-icons">
         <a href="https://drive.google.com/file/d/1cM77ga8TZzhngI30XniL03WammTL4PHU/view?usp=sharing" target="_blank">
@@ -158,7 +150,6 @@ st.sidebar.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# ----------- Taskbar Navigation ----------
 st.sidebar.write("---")
 if st.sidebar.button("Terminal"):
     st.session_state.active_section = "terminal"
@@ -167,7 +158,6 @@ if st.sidebar.button("Certifications"):
 if st.sidebar.button("Projects"):
     st.session_state.active_section = "projects"
 
-# ----------- Center Logo ----------
 if st.session_state.active_section == "home":
     st.markdown("""
         <div class="center-logo">
@@ -175,7 +165,6 @@ if st.session_state.active_section == "home":
         </div>
     """, unsafe_allow_html=True)
 
-# ----------- Taskbar with DateTime ----------
 st.markdown("""
     <div class="taskbar">
         <div class="taskbar-icons">
@@ -198,7 +187,6 @@ st.markdown("""
     </div>
 """.replace("{date}", datetime.datetime.now().strftime("%a, %b %d, %Y")).replace("{time}", datetime.datetime.now().strftime("%I:%M:%S %p")), unsafe_allow_html=True)
 
-# ----------- Terminal Interface ----------
 def terminal_interface():
     st.markdown("### 💻 ZAP Terminal")
     command = st.text_input("Type a command", key="terminal_input")
@@ -210,6 +198,16 @@ def terminal_interface():
         elif command.lower() == "certs":
             st.markdown("**Certifications:**\n- TryHackMe: Offensive Pentesting\n- Google Cybersecurity Certificate")
         elif command.lower() == "about":
-            st.markdown("**About You:**\nCybersecurity enthusiast with a passion for bioinformatics and ethical data
+            st.markdown("**About You:**\nCybersecurity enthusiast with a passion for bioinformatics and ethical data protection.")
+        elif command.lower() == "clear":
+            st.session_state.terminal_input = ""
+            st.experimental_rerun()
+        else:
+            st.markdown(f"`{command}` not recognized. Type `help` for options.")
+
+def show_projects():
+    st.markdown("### 📂 Projects")
+    with st.expander("🔐 Data Leak Detection Tool"):
+        st.write("Python-based scanner for sensitive
 
 
