@@ -2,7 +2,7 @@ import streamlit as st
 import time
 import datetime
 
-# ----------- Custom CSS for both screens ----------
+# ----------- Custom CSS for splash and desktop ----------
 st.markdown("""
     <style>
     body, .stApp { background: #000 !important; }
@@ -12,14 +12,14 @@ st.markdown("""
         color: #fff;
         text-align: center;
         letter-spacing: 10px;
-        text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #0ff, 0 0 40px #0ff;
+        text-shadow: 0 0 10px #fff, 0 0 20px #0ff, 0 0 30px #0ff, 0 0 40px #0ff;
         margin-top: 100px;
         animation: flicker 1.5s infinite alternate;
     }
     @keyframes flicker {
-      0% { opacity: 1; text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #0ff, 0 0 40px #0ff;}
+      0% { opacity: 1; text-shadow: 0 0 10px #fff, 0 0 20px #0ff, 0 0 30px #0ff, 0 0 40px #0ff;}
       50% { opacity: 0.7; text-shadow: 0 0 20px #fff, 0 0 30px #0ff, 0 0 40px #0ff, 0 0 60px #0ff;}
-      100% { opacity: 1; text-shadow: 0 0 12px #fff, 0 0 24px #0ff, 0 0 36px #0ff, 0 0 48px #0ff;}
+      100% { opacity: 1; text-shadow: 0 0 14px #fff, 0 0 24px #0ff, 0 0 36px #0ff, 0 0 48px #0ff;}
     }
     .loading-msg {
         color: #aaa;
@@ -97,7 +97,6 @@ if "loaded" not in st.session_state or not st.session_state.loaded:
         "Configuring security protocols...",
         "Launching interface..."
     ]
-
     progress_bar = st.empty()
     glow_header = st.empty()
     loadmsg = st.empty()
@@ -117,9 +116,9 @@ if "loaded" not in st.session_state or not st.session_state.loaded:
         loadmsg.markdown(f'<div class="loading-msg">{msg}</div>', unsafe_allow_html=True)
         progress_bar.progress(i)
         statusmsg.markdown(f'<div class="init-status">System initialization: {i}%</div>', unsafe_allow_html=True)
-        time.sleep(0.03)
+        time.sleep(0.02)
     st.session_state.loaded = True
-    st.experimental_rerun()  # This will automatically rerun and show desktop UI
+    st.experimental_rerun()  # Instantly rerun to show desktop UI
 
 # ----------- Desktop Portfolio Screen -----------
 # Sidebar icons
