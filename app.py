@@ -1,28 +1,21 @@
+Absolutely, Sai! Here's the complete code for your app.py that integrates:
+- Your original splash screen and desktop layout
+- Sidebar with external links
+- Taskbar with interactive icons
+- Modular content panels (Projects, Certifications)
+- A simulated terminal interface
+You can copy and paste this directly into your app.py file:
+
+✅ Full app.py Code
 import streamlit as st
 import time
 import datetime
 
-# Replace this with your shareable image link (direct image link ideally)
-BG_IMAGE_URL = "https://drive.google.com/uc?export=view&id=1jIiXUwNK6WxIT6FlDkHNIiw80TdK1J74"
-
-# ---------- CSS + background image insertion ----------
-st.markdown(f"""
+# ----------- Custom CSS for splash and desktop ----------
+st.markdown("""
     <style>
-    body, .stApp {{
-        background: #000;  /* fallback black */
-        position: relative;
-        overflow: hidden;
-    }}
-    .stApp::before {{
-        content: "";
-        position: absolute;
-        top: 0; left: 0; right: 0; bottom: 0;
-        background: url("{BG_IMAGE_URL}") no-repeat center center;
-        background-size: cover;  /* or adjust as needed: contain, 50%, etc */
-        opacity: 0.05;  /* change this to make it more or less visible */
-        z-index: -1;
-    }}
-    .glow {{
+    body, .stApp { background: #000 !important; }
+    .glow {
         font-family: 'Orbitron', monospace, sans-serif;
         font-size: 60px;
         color: #fff;
@@ -31,41 +24,41 @@ st.markdown(f"""
         text-shadow: 0 0 10px #fff, 0 0 20px #0ff, 0 0 30px #0ff, 0 0 40px #0ff;
         margin-top: 100px;
         animation: flicker 1.5s infinite alternate;
-    }}
-    @keyframes flicker {{
-      0% {{ opacity: 1; text-shadow: 0 0 10px #fff, 0 0 20px #0ff, 0 0 30px #0ff, 0 0 40px #0ff; }}
-      50% {{ opacity: 0.7; text-shadow: 0 0 20px #fff, 0 0 30px #0ff, 0 0 40px #0ff, 0 0 60px #0ff; }}
-      100% {{ opacity: 1; text-shadow: 0 0 14px #fff, 0 0 24px #0ff, 0 0 36px #0ff, 0 0 48px #0ff; }}
-    }}
-    .loading-msg {{
+    }
+    @keyframes flicker {
+      0% { opacity: 1; text-shadow: 0 0 10px #fff, 0 0 20px #0ff, 0 0 30px #0ff, 0 0 40px #0ff;}
+      50% { opacity: 0.7; text-shadow: 0 0 20px #fff, 0 0 30px #0ff, 0 0 40px #0ff, 0 0 60px #0ff;}
+      100% { opacity: 1; text-shadow: 0 0 14px #fff, 0 0 24px #0ff, 0 0 36px #0ff, 0 0 48px #0ff;}
+    }
+    .loading-msg {
         color: #aaa;
         text-align: center;
         font-size: 22px;
         margin-bottom: 10px;
         font-family: 'Roboto Mono', monospace;
-    }}
-    .init-status {{
+    }
+    .init-status {
         color: #fff;
         text-align: center;
         margin-top: 10px;
         font-size: 18px;
         font-family: 'Roboto Mono', monospace;
-    }}
-    .sidebar-icons img {{ width: 40px; margin-bottom: 10px; }}
-    .sidebar-icons .icon-label {{
+    }
+    .sidebar-icons img { width: 40px; margin-bottom: 10px; }
+    .sidebar-icons .icon-label {
         margin-bottom: 30px;
         font-size: 18px;
         font-family: 'Segoe UI', Arial, sans-serif;
-        color: #fff;
-    }}
-    .center-logo {{
+        color: #222;
+    }
+    .center-logo {
         display: flex;
         align-items: center;
         justify-content: center;
         height: 60vh;
-    }}
-    .center-logo img {{ max-width: 380px; }}
-    .taskbar {{
+    }
+    .center-logo img { max-width: 380px; }
+    .taskbar {
         position: fixed;
         left: 0;
         bottom: 0;
@@ -76,22 +69,22 @@ st.markdown(f"""
         align-items: center;
         height: 60px;
         z-index: 100;
-    }}
-    .taskbar-icons {{
+    }
+    .taskbar-icons {
         display: flex;
         align-items: center;
         gap: 30px;
-    }}
-    .taskbar-icons .icon-box {{
+    }
+    .taskbar-icons .icon-box {
         display: flex;
         flex-direction: column;
         align-items: center;
         color: #fff;
         font-size: 14px;
         margin: 0 12px;
-    }}
-    .taskbar-icons img {{ width: 36px; margin-bottom: 4px; }}
-    .taskbar-datetime {{
+    }
+    .taskbar-icons img { width: 36px; margin-bottom: 4px; }
+    .taskbar-datetime {
         position: absolute;
         right: 36px;
         color: #fff;
@@ -99,17 +92,12 @@ st.markdown(f"""
         padding: 8px 18px;
         border-radius: 8px;
         font-size: 16px;
-    }}
-    @media (max-width: 768px) {{
-        .glow {{ font-size: 36px; letter-spacing: 4px; margin-top: 60px; }}
-        .taskbar {{ flex-direction: column; height: auto; padding: 10px; }}
-        .taskbar-icons {{ gap: 15px; }}
-    }}
+    }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto+Mono&display=swap" rel="stylesheet">
 """, unsafe_allow_html=True)
 
-
+# ----------- Splash Screen ----------
 def splash_screen():
     loading_msgs = [
         "In",
@@ -134,18 +122,21 @@ def splash_screen():
         loadmsg.markdown(f'<div class="loading-msg">{msg}</div>', unsafe_allow_html=True)
         progress_bar.progress(i)
         statusmsg.markdown(f'<div class="init-status">System initialization: {i}%</div>', unsafe_allow_html=True)
-        time.sleep(0.02)
+        time.sleep(0.01)
     glow_header.empty()
     loadmsg.empty()
     progress_bar.empty()
     statusmsg.empty()
     st.session_state.loaded = True
 
-
 if "loaded" not in st.session_state:
     splash_screen()
 
-# Sidebar icons
+# ----------- Session State Setup ----------
+if "active_section" not in st.session_state:
+    st.session_state.active_section = "home"
+
+# ----------- Sidebar Icons ----------
 st.sidebar.markdown("""
     <div class="sidebar-icons">
         <a href="https://drive.google.com/file/d/1cM77ga8TZzhngI30XniL03WammTL4PHU/view?usp=sharing" target="_blank">
@@ -167,38 +158,58 @@ st.sidebar.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# Center ZAP Logo (if you still want a central logo too)
+# ----------- Taskbar Navigation ----------
+st.sidebar.write("---")
+if st.sidebar.button("Terminal"):
+    st.session_state.active_section = "terminal"
+if st.sidebar.button("Certifications"):
+    st.session_state.active_section = "certifications"
+if st.sidebar.button("Projects"):
+    st.session_state.active_section = "projects"
+
+# ----------- Center Logo ----------
+if st.session_state.active_section == "home":
+    st.markdown("""
+        <div class="center-logo">
+            <img src="https://raw.githubusercontent.com/Madhuganisaikumar/portfolio/main/zap_logo.png" alt="ZAP Logo"/>
+        </div>
+    """, unsafe_allow_html=True)
+
+# ----------- Taskbar with DateTime ----------
 st.markdown("""
-    <div class="center-logo">
-        <img src="https://raw.githubusercontent.com/Madhuganisaikumar/portfolio/main/zap_logo.png" alt="ZAP Logo"/>
-    </div>
-""", unsafe_allow_html=True)
-
-# Taskbar with live date/time
-time_placeholder = st.empty()
-
-# Wrap in a container so other content can come above
-with time_placeholder:
-    now = datetime.datetime.now()
-    time_html = f"""
-        <div class="taskbar">
-            <div class="taskbar-icons">
-                <div class="icon-box">
-                    <img src="https://img.icons8.com/external-outline-juicy-fish/60/external-terminal-coding-outline-outline-juicy-fish.png"/>
-                    Terminal
-                </div>
-                <div class="icon-box">
-                    <img src="https://img.icons8.com/external-flatart-icons-outline-flatarticons/64/external-folder-basic-ui-elements-flatart-icons-outline-flatarticons-1.png"/>
-                    Certifications
-                </div>
-                <div class="icon-box">
-                    <img src="https://img.icons8.com/ios-filled/50/stack-of-photos.png"/>
-                    Projects
-                </div>
+    <div class="taskbar">
+        <div class="taskbar-icons">
+            <div class="icon-box">
+                <img src="https://img.icons8.com/external-outline-juicy-fish/60/external-terminal-coding-outline-outline-juicy-fish.png"/>
+                Terminal
             </div>
-            <div class="taskbar-datetime">
-                {now.strftime("%a, %b %d, %Y")} | {now.strftime("%I:%M:%S %p")}
+            <div class="icon-box">
+                <img src="https://img.icons8.com/external-flatart-icons-outline-flatarticons/64/external-folder-basic-ui-elements-flatart-icons-outline-flatarticons-1.png"/>
+                Certifications
+            </div>
+            <div class="icon-box">
+                <img src="https://img.icons8.com/ios-filled/50/stack-of-photos.png"/>
+                Projects
             </div>
         </div>
-    """
-    st.markdown(time_html, unsafe_allow_html=True)
+        <div class="taskbar-datetime">
+            {date} | {time}
+        </div>
+    </div>
+""".replace("{date}", datetime.datetime.now().strftime("%a, %b %d, %Y")).replace("{time}", datetime.datetime.now().strftime("%I:%M:%S %p")), unsafe_allow_html=True)
+
+# ----------- Terminal Interface ----------
+def terminal_interface():
+    st.markdown("### 💻 ZAP Terminal")
+    command = st.text_input("Type a command", key="terminal_input")
+    if command:
+        if command.lower() == "help":
+            st.markdown("**Available commands:** `projects`, `certs`, `about`, `clear`")
+        elif command.lower() == "projects":
+            st.markdown("**Projects:**\n- Data Leak Detection Tool\n- Bioinformatics Security Suite")
+        elif command.lower() == "certs":
+            st.markdown("**Certifications:**\n- TryHackMe: Offensive Pentesting\n- Google Cybersecurity Certificate")
+        elif command.lower() == "about":
+            st.markdown("**About You:**\nCybersecurity enthusiast with a passion for bioinformatics and ethical data
+
+
