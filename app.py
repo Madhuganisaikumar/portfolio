@@ -1,12 +1,9 @@
-Here’s your clean and complete app.py code — no extra commentary, just pure Python. This version includes:
-- Splash screen
-- Sidebar with external links
-- Taskbar with interactive navigation
-- Modular panels: Terminal, Projects, Certifications
+Here’s your clean, complete Python code for app.py — no commentary, just the working Streamlit app:
 import streamlit as st
 import time
 import datetime
 
+# ---------- CSS ----------
 st.markdown("""
     <style>
     body, .stApp { background: #000 !important; }
@@ -92,27 +89,16 @@ st.markdown("""
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto+Mono&display=swap" rel="stylesheet">
 """, unsafe_allow_html=True)
 
+# ---------- Splash ----------
 def splash_screen():
-    loading_msgs = [
-        "In",
-        "Loading essential services..",
-        "Configuring security protocols...",
-        "Launching interface..."
-    ]
+    loading_msgs = ["In", "Loading essential services..", "Configuring security protocols...", "Launching interface..."]
     progress_bar = st.empty()
     glow_header = st.empty()
     loadmsg = st.empty()
     statusmsg = st.empty()
     glow_header.markdown('<div class="glow">ZAP</div>', unsafe_allow_html=True)
     for i in range(101):
-        if i < 25:
-            msg = loading_msgs[0]
-        elif i < 50:
-            msg = loading_msgs[1]
-        elif i < 85:
-            msg = loading_msgs[2]
-        else:
-            msg = loading_msgs[3]
+        msg = loading_msgs[0] if i < 25 else loading_msgs[1] if i < 50 else loading_msgs[2] if i < 85 else loading_msgs[3]
         loadmsg.markdown(f'<div class="loading-msg">{msg}</div>', unsafe_allow_html=True)
         progress_bar.progress(i)
         statusmsg.markdown(f'<div class="init-status">System initialization: {i}%</div>', unsafe_allow_html=True)
@@ -126,9 +112,11 @@ def splash_screen():
 if "loaded" not in st.session_state:
     splash_screen()
 
+# ---------- State ----------
 if "active_section" not in st.session_state:
     st.session_state.active_section = "home"
 
+# ---------- Sidebar ----------
 st.sidebar.markdown("""
     <div class="sidebar-icons">
         <a href="https://drive.google.com/file/d/1cM77ga8TZzhngI30XniL03WammTL4PHU/view?usp=sharing" target="_blank">
@@ -158,6 +146,7 @@ if st.sidebar.button("Certifications"):
 if st.sidebar.button("Projects"):
     st.session_state.active_section = "projects"
 
+# ---------- Center Logo ----------
 if st.session_state.active_section == "home":
     st.markdown("""
         <div class="center-logo">
@@ -165,7 +154,8 @@ if st.session_state.active_section == "home":
         </div>
     """, unsafe_allow_html=True)
 
-st.markdown("""
+# ---------- Taskbar ----------
+st.markdown(f"""
     <div class="taskbar">
         <div class="taskbar-icons">
             <div class="icon-box">
@@ -182,11 +172,12 @@ st.markdown("""
             </div>
         </div>
         <div class="taskbar-datetime">
-            {date} | {time}
+            {datetime.datetime.now().strftime("%a, %b %d, %Y")} | {datetime.datetime.now().strftime("%I:%M:%S %p")}
         </div>
     </div>
-""".replace("{date}", datetime.datetime.now().strftime("%a, %b %d, %Y")).replace("{time}", datetime.datetime.now().strftime("%I:%M:%S %p")), unsafe_allow_html=True)
+""", unsafe_allow_html=True)
 
+# ---------- Terminal ----------
 def terminal_interface():
     st.markdown("### 💻 ZAP Terminal")
     command = st.text_input("Type a command", key="terminal_input")
@@ -205,9 +196,12 @@ def terminal_interface():
         else:
             st.markdown(f"`{command}` not recognized. Type `help` for options.")
 
+# ---------- Projects ----------
 def show_projects():
     st.markdown("### 📂 Projects")
     with st.expander("🔐 Data Leak Detection Tool"):
-        st.write("Python-based scanner for sensitive
+        st.write("Python-based scanner for sensitive data in files and emails.")
+    with st.expander("🧬 Genomic Security Suite"):
+        st.write("Integr
 
 
