@@ -89,8 +89,8 @@ st.markdown("""
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto+Mono&display=swap" rel="stylesheet">
 """, unsafe_allow_html=True)
 
-# ----------- Hacker Loading Splash -----------
-if "loaded" not in st.session_state or not st.session_state.loaded:
+# ----------- Hacker Loading Splash (only once per session) -----------
+if "loaded" not in st.session_state:
     loading_msgs = [
         "In",
         "Loading essential services..",
@@ -101,9 +101,7 @@ if "loaded" not in st.session_state or not st.session_state.loaded:
     glow_header = st.empty()
     loadmsg = st.empty()
     statusmsg = st.empty()
-
     glow_header.markdown('<div class="glow">ZAP</div>', unsafe_allow_html=True)
-
     for i in range(101):
         if i < 25:
             msg = loading_msgs[0]
