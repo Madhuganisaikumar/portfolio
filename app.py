@@ -89,8 +89,8 @@ st.markdown("""
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto+Mono&display=swap" rel="stylesheet">
 """, unsafe_allow_html=True)
 
-# ----------- Hacker Loading Splash ----------
-if "loaded" not in st.session_state:
+# ----------- Hacker Loading Splash -----------
+if "loaded" not in st.session_state or not st.session_state.loaded:
     loading_msgs = [
         "In",
         "Loading essential services..",
@@ -119,8 +119,7 @@ if "loaded" not in st.session_state:
         statusmsg.markdown(f'<div class="init-status">System initialization: {i}%</div>', unsafe_allow_html=True)
         time.sleep(0.03)
     st.session_state.loaded = True
-    st.success("System Initialized! Click 'Rerun' if stuck.")
-    st.stop()  # This will stop the script after splash; next run will show desktop
+    st.experimental_rerun()  # This will automatically rerun and show desktop UI
 
 # ----------- Desktop Portfolio Screen -----------
 # Sidebar icons
