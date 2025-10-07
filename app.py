@@ -1,9 +1,8 @@
-Here’s your clean, complete Python code for app.py — no commentary, just the working Streamlit app:
 import streamlit as st
 import time
 import datetime
 
-# ---------- CSS ----------
+# ----------- Custom CSS for splash and desktop ----------
 st.markdown("""
     <style>
     body, .stApp { background: #000 !important; }
@@ -36,6 +35,7 @@ st.markdown("""
         font-size: 18px;
         font-family: 'Roboto Mono', monospace;
     }
+    /* Desktop Screen */
     .sidebar-icons img { width: 40px; margin-bottom: 10px; }
     .sidebar-icons .icon-label {
         margin-bottom: 30px;
@@ -89,20 +89,32 @@ st.markdown("""
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto+Mono&display=swap" rel="stylesheet">
 """, unsafe_allow_html=True)
 
-# ---------- Splash ----------
 def splash_screen():
-    loading_msgs = ["In", "Loading essential services..", "Configuring security protocols...", "Launching interface..."]
+    loading_msgs = [
+        "In",
+        "Loading essential services..",
+        "Configuring security protocols...",
+        "Launching interface..."
+    ]
     progress_bar = st.empty()
     glow_header = st.empty()
     loadmsg = st.empty()
     statusmsg = st.empty()
     glow_header.markdown('<div class="glow">ZAP</div>', unsafe_allow_html=True)
     for i in range(101):
-        msg = loading_msgs[0] if i < 25 else loading_msgs[1] if i < 50 else loading_msgs[2] if i < 85 else loading_msgs[3]
+        if i < 25:
+            msg = loading_msgs[0]
+        elif i < 50:
+            msg = loading_msgs[1]
+        elif i < 85:
+            msg = loading_msgs[2]
+        else:
+            msg = loading_msgs[3]
         loadmsg.markdown(f'<div class="loading-msg">{msg}</div>', unsafe_allow_html=True)
         progress_bar.progress(i)
         statusmsg.markdown(f'<div class="init-status">System initialization: {i}%</div>', unsafe_allow_html=True)
         time.sleep(0.01)
+    # Clear splash and set session state
     glow_header.empty()
     loadmsg.empty()
     progress_bar.empty()
@@ -112,11 +124,8 @@ def splash_screen():
 if "loaded" not in st.session_state:
     splash_screen()
 
-# ---------- State ----------
-if "active_section" not in st.session_state:
-    st.session_state.active_section = "home"
-
-# ---------- Sidebar ----------
+# ----------- Desktop Portfolio Screen -----------
+# Sidebar icons
 st.sidebar.markdown("""
     <div class="sidebar-icons">
         <a href="https://drive.google.com/file/d/1cM77ga8TZzhngI30XniL03WammTL4PHU/view?usp=sharing" target="_blank">
@@ -138,24 +147,15 @@ st.sidebar.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-st.sidebar.write("---")
-if st.sidebar.button("Terminal"):
-    st.session_state.active_section = "terminal"
-if st.sidebar.button("Certifications"):
-    st.session_state.active_section = "certifications"
-if st.sidebar.button("Projects"):
-    st.session_state.active_section = "projects"
+# Center ZAP Logo
+st.markdown("""
+    <div class="center-logo">
+        <img src="https://raw.githubusercontent.com/Madhuganisaikumar/portfolio/main/zap_logo.png" alt="ZAP Logo"/>
+    </div>
+""", unsafe_allow_html=True)
 
-# ---------- Center Logo ----------
-if st.session_state.active_section == "home":
-    st.markdown("""
-        <div class="center-logo">
-            <img src="https://raw.githubusercontent.com/Madhuganisaikumar/portfolio/main/zap_logo.png" alt="ZAP Logo"/>
-        </div>
-    """, unsafe_allow_html=True)
-
-# ---------- Taskbar ----------
-st.markdown(f"""
+# Desktop-like taskbar
+st.markdown("""
     <div class="taskbar">
         <div class="taskbar-icons">
             <div class="icon-box">
@@ -172,36 +172,7 @@ st.markdown(f"""
             </div>
         </div>
         <div class="taskbar-datetime">
-            {datetime.datetime.now().strftime("%a, %b %d, %Y")} | {datetime.datetime.now().strftime("%I:%M:%S %p")}
+            {date} | {time}
         </div>
     </div>
-""", unsafe_allow_html=True)
-
-# ---------- Terminal ----------
-def terminal_interface():
-    st.markdown("### 💻 ZAP Terminal")
-    command = st.text_input("Type a command", key="terminal_input")
-    if command:
-        if command.lower() == "help":
-            st.markdown("**Available commands:** `projects`, `certs`, `about`, `clear`")
-        elif command.lower() == "projects":
-            st.markdown("**Projects:**\n- Data Leak Detection Tool\n- Bioinformatics Security Suite")
-        elif command.lower() == "certs":
-            st.markdown("**Certifications:**\n- TryHackMe: Offensive Pentesting\n- Google Cybersecurity Certificate")
-        elif command.lower() == "about":
-            st.markdown("**About You:**\nCybersecurity enthusiast with a passion for bioinformatics and ethical data protection.")
-        elif command.lower() == "clear":
-            st.session_state.terminal_input = ""
-            st.experimental_rerun()
-        else:
-            st.markdown(f"`{command}` not recognized. Type `help` for options.")
-
-# ---------- Projects ----------
-def show_projects():
-    st.markdown("### 📂 Projects")
-    with st.expander("🔐 Data Leak Detection Tool"):
-        st.write("Python-based scanner for sensitive data in files and emails.")
-    with st.expander("🧬 Genomic Security Suite"):
-        st.write("Integr
-
-
+""".replace("{date}", datetime.datetime.now().strftime("%a, %b %d, %Y")).replace("{time}", datetime.datetime.now().strftime("%I:%M:%S %p")), unsafe_allow_html=True)
