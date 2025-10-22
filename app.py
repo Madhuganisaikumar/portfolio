@@ -1,126 +1,60 @@
 import streamlit as st
+import os
 
-# ---------------------------
-# PAGE CONFIG
-# ---------------------------
-st.set_page_config(
-    page_title="Madhugani Sai Kumar | Portfolio",
-    page_icon="💻",
-    layout="wide"
+# --------------------------
+# Page setup
+# --------------------------
+st.set_page_config(page_title="Madhugani Sai Kumar | Portfolio", page_icon="💻", layout="wide")
+
+# --------------------------
+# Load static files
+# --------------------------
+def load_file(file_path):
+    with open(file_path, "r", encoding="utf-8") as f:
+        return f.read()
+
+html_content = load_file("index.html")
+css_content = load_file("styles.css")
+js_content = load_file("script.js")
+
+# --------------------------
+# Replace default details with your info
+# --------------------------
+html_content = html_content.replace("Abhijeet Bhale", "Madhugani Sai Kumar")
+html_content = html_content.replace("abhijeetbhale7@gmail.com", "your.email@example.com")
+html_content = html_content.replace(
+    "An aspiring Full Stack Developer passionate about building sleek web experiences.",
+    "Python Developer | AI + Blockchain | Building intelligent systems with modern UI experiences."
+)
+html_content = html_content.replace(
+    "I'm currently pursuing my B.Tech in Computer Science Engineering at Medicaps University, Indore.",
+    "Currently pursuing B.Tech in Computer Science and Engineering, focusing on AI and Full Stack development."
+)
+html_content = html_content.replace(
+    "Abhijeet Bhale Resume Updated 300925.pdf",
+    "resume.pdf"
 )
 
-# ---------------------------
-# PORTFOLIO DATA
-# ---------------------------
-profile = {
-    "name": "Madhugani Sai Kumar",
-    "title": "Full Stack Developer | Machine Learning | Blockchain Enthusiast",
-    "about": """Hi 👋 I'm Madhugani, a passionate Python developer who builds intelligent and scalable apps. 
-Currently working on **ChainGuardian** (AI + Blockchain anti-fraud system) and **Medical Report Analyzer** using LLMs and OCR.""",
-    "skills": [
-        "Python", "Flask", "Streamlit", "React", "Node.js",
-        "MongoDB", "MySQL", "Machine Learning", "Blockchain", "Git", "AWS"
-    ],
-    "projects": [
-        {
-            "name": "ChainGuardian",
-            "desc": "AI-powered blockchain reputation system to detect and prevent fraud in e-commerce.",
-            "tech": ["Python", "Solidity", "Streamlit", "IPFS"]
-        },
-        {
-            "name": "Medical Report Analyzer",
-            "desc": "LLM-based system for extracting structured insights from unstructured medical PDFs.",
-            "tech": ["Python", "LangChain", "OpenAI API", "Streamlit"]
-        },
-        {
-            "name": "Smart Portfolio",
-            "desc": "This live Streamlit portfolio app built entirely in Python!",
-            "tech": ["Streamlit"]
-        }
-    ],
-    "journey": [
-        ("B.Tech Computer Science", "Medicaps University, Indore (2022–2026)"),
-        ("Hackathon Project", "ChainGuardian - AI & Blockchain anti-fraud system"),
-        ("AI Project", "Medical Report Analyzer - LLM + OCR pipeline")
-    ],
-    "contact": {
-        "email": "your.email@example.com",
-        "linkedin": "https://linkedin.com/in/yourprofile",
-        "github": "https://github.com/yourusername",
-        "instagram": "https://instagram.com/yourprofile"
-    }
-}
+# --------------------------
+# Inject CSS and JS into HTML
+# --------------------------
+full_page = f"""
+<html>
+    <head>
+        <style>
+        {css_content}
+        </style>
+    </head>
+    <body>
+        {html_content}
+        <script>
+        {js_content}
+        </script>
+    </body>
+</html>
+"""
 
-# ---------------------------
-# PAGE STYLE
-# ---------------------------
-st.markdown("""
-<style>
-body, .stApp {
-    background: radial-gradient(circle at top left, #020202, #0c0c0c);
-    color: #e0e0e0;
-    font-family: 'Poppins', sans-serif;
-}
-h1, h2, h3 {
-    color: #1DCD9F;
-}
-.stButton > button {
-    background: linear-gradient(90deg, #1DCD9F, #1B9DB8);
-    color: white;
-    font-weight: 600;
-    border-radius: 8px;
-    border: none;
-}
-.stButton > button:hover {
-    background: linear-gradient(90deg, #19b08b, #17829e);
-}
-</style>
-""", unsafe_allow_html=True)
-
-# ---------------------------
-# HEADER SECTION
-# ---------------------------
-st.title(profile["name"])
-st.subheader(profile["title"])
-st.markdown(profile["about"])
-
-# ---------------------------
-# SKILLS SECTION
-# ---------------------------
-st.markdown("## 🧠 Skills")
-cols = st.columns(3)
-for i, skill in enumerate(profile["skills"]):
-    cols[i % 3].markdown(f"- {skill}")
-
-# ---------------------------
-# PROJECTS SECTION
-# ---------------------------
-st.markdown("## 🚀 Projects")
-for p in profile["projects"]:
-    with st.container():
-        st.markdown(f"### {p['name']}")
-        st.markdown(p["desc"])
-        st.markdown(f"**Tech Stack:** {', '.join(p['tech'])}")
-        st.divider()
-
-# ---------------------------
-# JOURNEY SECTION
-# ---------------------------
-st.markdown("## 🧭 Journey")
-for title, desc in profile["journey"]:
-    st.markdown(f"**{title}** — {desc}")
-
-# ---------------------------
-# CONTACT SECTION
-# ---------------------------
-st.markdown("## 📬 Contact")
-st.markdown(f"📧 Email: [{profile['contact']['email']}]({profile['contact']['email']})")
-st.markdown(f"💼 [LinkedIn]({profile['contact']['linkedin']})")
-st.markdown(f"🐙 [GitHub]({profile['contact']['github']})")
-st.markdown(f"📸 [Instagram]({profile['contact']['instagram']})")
-
-# ---------------------------
-# FOOTER
-# ---------------------------
-st.divider()
-st.caption("© 2025 Madhugani Sai Kumar | Built entirely in Python & Streamlit 💚")
+# --------------------------
+# Display in Streamlit
+# --------------------------
+st.components.v1.html(full_page, height=1200, scrolling=True)
