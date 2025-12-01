@@ -6,7 +6,6 @@ st.set_page_config(
     layout="wide"
 )
 
-# --- CSS + HTML in one go --- #
 html = r"""
 <style>
 /* Hide default Streamlit chrome for cleaner desktop look */
@@ -112,7 +111,7 @@ body, .stApp {
   width: 210px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
 }
 
 .desktop-right {
@@ -167,7 +166,6 @@ body, .stApp {
   opacity: 1;
 }
 
-/* Simple emoji "logos" */
 .icon-emoji {
   font-size: 26px;
 }
@@ -220,7 +218,7 @@ body, .stApp {
   background: radial-gradient(circle at top, rgba(15,23,42,0.97), #020617);
   box-shadow: 0 22px 55px rgba(15,23,42,0.98);
   padding: 12px 14px;
-  display: none; /* default hidden */
+  display: none;
   flex-direction: column;
   font-size: 13px;
 }
@@ -229,7 +227,9 @@ body, .stApp {
 #win-resume:target,
 #win-projects:target,
 #win-github:target,
-#win-linkedin:target {
+#win-linkedin:target,
+#win-skills:target,
+#win-achievements:target {
   display: flex;
 }
 
@@ -238,6 +238,7 @@ body, .stApp {
   display: flex;
 }
 
+/* Window header */
 .window-header {
   display: flex;
   align-items: center;
@@ -267,6 +268,11 @@ body, .stApp {
   padding-top: 4px;
   color: #e5e7eb;
 }
+.win-body-inner {
+  overflow-y: auto;
+  max-height: calc(100vh - 140px);
+  padding-right: 4px;
+}
 
 /* Resume window content */
 .resume-grid {
@@ -275,9 +281,7 @@ body, .stApp {
   gap: 14px;
 }
 @media (max-width: 900px) {
-  .resume-grid {
-    grid-template-columns: 1fr;
-  }
+  .resume-grid { grid-template-columns: 1fr; }
 }
 .resume-name {
   font-size: 20px;
@@ -348,6 +352,40 @@ body, .stApp {
   border: 1px solid rgba(148,163,184,0.6);
 }
 
+/* Skills window */
+.skills-section-title {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: #9ca3af;
+  margin-top: 6px;
+  margin-bottom: 4px;
+}
+.skills-list {
+  font-size: 13px;
+  color: #d1d5db;
+}
+.skills-list li {
+  margin-bottom: 3px;
+}
+
+/* Achievements window */
+.ach-item {
+  margin-bottom: 10px;
+}
+.ach-title {
+  font-size: 13px;
+  font-weight: 600;
+}
+.ach-meta {
+  font-size: 11px;
+  color: #9ca3af;
+}
+.ach-desc {
+  font-size: 13px;
+  color: #d1d5db;
+}
+
 /* Link windows */
 .link-block {
   border-radius: 14px;
@@ -371,24 +409,18 @@ body, .stApp {
   text-decoration: underline;
 }
 
-/* Close link style */
-.close-link {
+/* Footer */
+footer {
+  margin-top: 6px;
+  text-align: center;
   font-size: 11px;
-  color: #9ca3af;
-  text-decoration: none;
+  color: #6b7280;
 }
-
-/* Small scroll inside window */
-.win-body-inner {
-  overflow-y: auto;
-  max-height: calc(100vh - 140px);
-  padding-right: 4px;
-}
+footer span { color:#22c55e; }
 
 /* Animations */
-@keyframes desktopPulse {
-  0% { box-shadow: 0 0 0 0 rgba(34,197,94,0.3); }
-  100%{ box-shadow: 0 0 0 12px rgba(34,197,94,0); }
+@keyframes fadeUp {
+  to { opacity:1; transform:translateY(0); }
 }
 </style>
 
@@ -434,6 +466,21 @@ body, .stApp {
           <span>LinkedIn</span>
         </a>
       </div>
+
+      <div class="icon-row">
+        <a href="#win-skills" class="icon">
+          <div class="icon-badge">
+            <div class="icon-emoji">🧠</div>
+          </div>
+          <span>Skills</span>
+        </a>
+        <a href="#win-achievements" class="icon">
+          <div class="icon-badge">
+            <div class="icon-emoji">🏆</div>
+          </div>
+          <span>Achievements</span>
+        </a>
+      </div>
     </div>
 
     <div class="desktop-right">
@@ -462,7 +509,7 @@ body, .stApp {
                 <div class="resume-section-title">Core Skills</div>
                 <ul class="resume-list">
                   <li>Python, FastAPI / Flask, Streamlit</li>
-                  <li>JavaScript, basic React, REST APIs</li>
+                  <li>JavaScript basics, React basics, REST APIs</li>
                   <li>SQL / NoSQL, authentication, JWT</li>
                   <li>AI / LLM integration, OCR, data parsing</li>
                 </ul>
@@ -472,7 +519,7 @@ body, .stApp {
                 <ul class="resume-list">
                   <li><b>B.Tech in Computer Science &amp; Engineering</b></li>
                   <li>2022 – Present</li>
-                  <li>Focused on DSA, OS, DBMS, and software engineering.</li>
+                  <li>Focused on DSA, OS, DBMS, Networking, and Software Engineering.</li>
                 </ul>
 
                 <div class="resume-section-title">Status</div>
@@ -541,8 +588,8 @@ body, .stApp {
               <div class="project-tag">Web / Portfolio</div>
               <div class="project-title">MSK Desktop Portfolio</div>
               <div class="project-desc">
-                This interactive desktop-style hacker portfolio built entirely with Python &amp; Streamlit.
-                It simulates a minimal OS with icons and windows, optimized for deployment on Streamlit Cloud.
+                This interactive desktop-style hacker portfolio built entirely with Python &amp; Streamlit,
+                simulating a minimal OS with icons and windows.
               </div>
               <div class="project-tech">
                 <span>Streamlit</span>
@@ -550,8 +597,92 @@ body, .stApp {
                 <span>Single-file App</span>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
 
-            <a href="#" class="close-link">Close window (go back)</a>
+      <!-- Skills window -->
+      <div class="window" id="win-skills">
+        <div class="window-header">
+          <div class="window-title">SKILLS // STACK.MSK</div>
+          <div class="window-buttons">
+            <span class="win-dot win-close"></span>
+            <span class="win-dot win-min"></span>
+            <span class="win-dot win-max"></span>
+          </div>
+        </div>
+        <div class="win-body">
+          <div class="win-body-inner">
+            <div class="skills-section-title">Programming Languages</div>
+            <ul class="skills-list">
+              <li>Python (primary)</li>
+              <li>C / C++ basics</li>
+              <li>JavaScript (ES6 basics)</li>
+            </ul>
+
+            <div class="skills-section-title">Frameworks & Tools</div>
+            <ul class="skills-list">
+              <li>Streamlit, Flask / FastAPI fundamentals</li>
+              <li>Git & GitHub, basic CI/CD</li>
+              <li>REST APIs, JSON, Postman</li>
+            </ul>
+
+            <div class="skills-section-title">CS Fundamentals (B.Tech)</div>
+            <ul class="skills-list">
+              <li>Data Structures & Algorithms</li>
+              <li>Database Management Systems (DBMS)</li>
+              <li>Operating Systems basics</li>
+              <li>Computer Networks basics</li>
+            </ul>
+
+            <div class="skills-section-title">Areas of Interest</div>
+            <ul class="skills-list">
+              <li>AI / LLM applications</li>
+              <li>Blockchain + smart contracts</li>
+              <li>Backend & full stack development</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Achievements window -->
+      <div class="window" id="win-achievements">
+        <div class="window-header">
+          <div class="window-title">ACHIEVEMENTS // LOG.MSK</div>
+          <div class="window-buttons">
+            <span class="win-dot win-close"></span>
+            <span class="win-dot win-min"></span>
+            <span class="win-dot win-max"></span>
+          </div>
+        </div>
+        <div class="win-body">
+          <div class="win-body-inner">
+            <div class="ach-item">
+              <div class="ach-title">ChainGuardian – Hackathon Project</div>
+              <div class="ach-meta">2025 · AI + Blockchain</div>
+              <div class="ach-desc">
+                Led development of an anti-fraud reputation system for e-commerce using Python,
+                blockchain, and AI-driven logic.
+              </div>
+            </div>
+
+            <div class="ach-item">
+              <div class="ach-title">Medical Report Analyzer</div>
+              <div class="ach-meta">2025 · AI / LLM</div>
+              <div class="ach-desc">
+                Built a prototype that reads medical PDFs, extracts lab values, and explains
+                abnormal results using LLMs.
+              </div>
+            </div>
+
+            <div class="ach-item">
+              <div class="ach-title">B.Tech CSE (in progress)</div>
+              <div class="ach-meta">2022 – Present</div>
+              <div class="ach-desc">
+                Consistently improving core CS knowledge (DSA, OS, DBMS, CN) along with hands-on
+                project work in Python and web development.
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -580,7 +711,6 @@ body, .stApp {
                 Explore my code, experiments, and projects in Python, Streamlit, and AI.
               </p>
             </div>
-            <a href="#" class="close-link" style="margin-top:8px; display:inline-block;">Close window (go back)</a>
           </div>
         </div>
       </div>
@@ -606,11 +736,10 @@ body, .stApp {
                 </a>
               </div>
               <p style="margin-top:6px; font-size:12px;">
-                Open to networking, internships, and interesting project collaborations
-                around Python, AI, and full stack development.
+                Open to networking, internships, and project collaborations around Python,
+                AI, and full stack development.
               </p>
             </div>
-            <a href="#" class="close-link" style="margin-top:8px; display:inline-block;">Close window (go back)</a>
           </div>
         </div>
       </div>
@@ -626,12 +755,17 @@ body, .stApp {
     <div class="taskbar-center">
       <div class="taskbar-pill">Resume.msk</div>
       <div class="taskbar-pill">Projects/</div>
+      <div class="taskbar-pill">Skills/</div>
     </div>
     <div class="taskbar-right">
       <span>PY 3.x</span>
       <span>STREAMLIT</span>
     </div>
   </div>
+
+  <footer>
+    © 2025 <span>Madhugani Sai Kumar</span> — desktop-style hacker portfolio (Streamlit).
+  </footer>
 </div>
 """
 
